@@ -6,6 +6,7 @@
  */
 
 import type { ExtensionAPI } from "@oh-my-pi/pi-coding-agent";
+import { rewriteGrokBashInput } from "./bash-call";
 import {
 	GROK_BUILD_API,
 	GROK_BUILD_BASE_URL,
@@ -74,6 +75,13 @@ export default function ompGrokBuildExtension(pi: ExtensionAPI): void {
 
 	pi.on("session_start", async (_event, ctx) => {
 		installUsageFromRegistry(ctx.modelRegistry);
+	});
+
+	pi.on("tool_call", async event => {
+		if (event.toolName !== "bash") return;
+		const input = rewriteGrokBashInput(event.input as unknown as Record<string, unknown>);
+		if (!input) return;
+		return { input };
 	});
 
 	pi.registerCommand("grok-build-help", {
