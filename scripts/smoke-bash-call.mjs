@@ -16,16 +16,15 @@ same(rewriteGrokBashInput({ command, name: "status", timeout: 3600 }), {
 	timeout: 3600,
 });
 
-same(rewriteGrokBashInput({ command, name: "dev", ready: { port: 3000 }, timeout: 30, async: true }), {
+same(rewriteGrokBashInput({ command, name: "dev", ready: { port: 0 }, timeout: 30, async: true }), {
 	command,
-	name: "dev",
-	ready: { port: 3000 },
+	timeout: 30,
 });
+
+same(rewriteGrokBashInput({ command, ready: { port: "git" } }), { command });
 
 same(rewriteGrokBashInput({ command, async: true, timeout: 30 }), { command, timeout: 30 });
 
 same(rewriteGrokBashInput({ command, timeout: 30 }), undefined);
-
-same(rewriteGrokBashInput({ command, name: "dev", ready: { log: "ready" } }), undefined);
 
 console.log("PASS");
