@@ -56,6 +56,7 @@ export default function ompGrokBuildExtension(pi: ExtensionAPI): void {
 			cost: model.cost,
 			contextWindow: model.contextWindow,
 			maxTokens: model.maxTokens,
+			...(model.thinking ? { thinking: model.thinking } : {}),
 			headers: model.headers,
 			compat: model.compat,
 		})),
