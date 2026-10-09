@@ -32,7 +32,40 @@ interface CuratedOverlay {
 	compat?: Record<string, unknown>;
 }
 
+/** 4.6 / 4.7 accept xhigh. 4.5 does not, so it maps xhigh down to high. */
+const FRONTIER_COMPAT = {
+	supportsReasoningEffort: true,
+	supportsReasoningParams: true,
+	reasoningEffortMap: { minimal: "low" },
+	promptCacheSessionHeader: "x-grok-conv-id",
+} as const;
+
 const CURATED: Record<string, CuratedOverlay> = {
+	"grok-4.7": {
+		name: "Grok 4.7 (Grok Build CLI)",
+		reasoning: true,
+		input: ["text", "image"],
+		contextWindow: 500_000,
+		maxTokens: 64_000,
+		compat: { ...FRONTIER_COMPAT },
+	},
+	// CLI display name is "Grok 4.7 Fast". Wire id from GET /v1/models.
+	"grok-4.7-build-fast": {
+		name: "Grok 4.7 Fast (Grok Build CLI)",
+		reasoning: true,
+		input: ["text", "image"],
+		contextWindow: 500_000,
+		maxTokens: 64_000,
+		compat: { ...FRONTIER_COMPAT },
+	},
+	"grok-4.6": {
+		name: "Grok 4.6 (Grok Build CLI)",
+		reasoning: true,
+		input: ["text", "image"],
+		contextWindow: 500_000,
+		maxTokens: 64_000,
+		compat: { ...FRONTIER_COMPAT },
+	},
 	"grok-4.5": {
 		name: "Grok 4.5 (Grok Build CLI)",
 		reasoning: true,
